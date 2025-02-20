@@ -249,6 +249,14 @@ namespace LiteNetLib.Utils
             _position += data.Length;
         }
 
+        public void Put(ReadOnlySpan<byte> data)
+        {
+            if (_autoResize)
+                ResizeIfNeed(_position + data.Length);
+            data.CopyTo(_data.AsSpan(_position, data.Length));
+            _position += data.Length;
+        }
+
         public void PutSBytesWithLength(sbyte[] data, int offset, ushort length)
         {
             if (_autoResize)
